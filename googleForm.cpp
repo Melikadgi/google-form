@@ -6,6 +6,7 @@ using namespace std;
 
 char googleFormDashboard() {
     char cmd;
+    cout << "-----------------------" << endl;
     cout << "Google Form Dashboard:" << endl;
     cout << "1. Add new exam." << endl;
     cout << "2. Last exams history." << endl;
@@ -15,6 +16,7 @@ char googleFormDashboard() {
     cout << "6. Exit." << endl;
     cout << "Enter a command (number): ";
     cin >> cmd;
+    cout << "-----------------------" << endl;
     return cmd;
 }
 
@@ -27,8 +29,9 @@ void addNewExam() {
     cin >> totalDuration;
     cout << "Enter number of questions: ";
     cin >> numberOfQuestions;
-    fstream examFile("exams.txt", ios::app);
-    if (!examFile) {
+    ofstream examFile("exams.txt", ios::app);
+    ifstream examFileRead("exams.txt");
+    if (!examFile.is_open()) {
         cout << "Error loading the file 'exams.txt'. Please try again." << endl;
         return;
     }
@@ -38,13 +41,13 @@ void addNewExam() {
     for (int i = 0;i < numberOfQuestions;i++) {
         float mark, time;
         string question, type;
-        cout << "What is the question's mark ? ";
+        cout << "What is the question " << i + 1 << " mark ? ";
         cin >> mark;
-        cout << "What is the question's time (in minutes) ? ";
+        cout << "What is the question " << i + 1 << " time (in minutes) ? ";
         cin >> time;
-        cout << "What is the question's type (descriptive or D / Multiple Choice or MC) ? ";
+        cout << "What is the question " << i + 1 << " type (descriptive or D / Multiple Choice or MC) ? ";
         cin >> type;
-        cout << "What is the question's content ? ";
+        cout << "What is the question " << i + 1 << " content ? ";
         cin.ignore();
         getline(cin, question);
         checkTotalMark += mark;
@@ -59,7 +62,6 @@ void addNewExam() {
             string options[4];
             for (int j = 0;j < 4;j++) {
                 cout << "Option " << j + 1 << ": ";
-                cin.ignore();
                 getline(cin, options[j]);
             }
             cout << "What is the right answer (option number) ? ";
@@ -78,8 +80,10 @@ void addNewExam() {
         cout << "Total mark doesn't match. Please try again." << endl;
         return;
     }
-    string file = "";
-    while (getline(examFile, file));
+    string file = "", line = "";
+    while (getline(examFileRead, line)) {
+        file += line;
+    }
     int posToStart = 0, id = 1;
     while(file.find("----------------------", posToStart) != string::npos) {
         id++;
@@ -168,8 +172,9 @@ void addNewStudents() {
         cout << "Enter Email: ";
         cin >> email;
         studentFile << ID << " " << name << " " << email << endl;
+        cout << "Student added successfully." << endl;
     }
-    if (cmd == '2') {
+    else if (cmd == '2') {
         string filePath;
         cout << "Enter file path (note that in that file students must be like this: StudentID Name Email, if the format is not met the program won't work properly and everything will break.): ";
         cin >> filePath;
@@ -180,6 +185,7 @@ void addNewStudents() {
                 studentFile << ID << " " << name << " " << email << endl;
             }
             file.close();
+            cout << "Students added successfully." << endl;
         }
         else {
             cout << "File not found. Please try again." << endl;
