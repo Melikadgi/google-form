@@ -102,6 +102,38 @@ void addNewExam() {
     cout << "Exam added successfully." << endl;
 }
 
+void getLastExams() {
+    ifstream file("exams.txt");
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            cout << line << endl;
+        }
+        file.close();
+    }
+    else {
+        cout << "File 'exams.txt' not found. Please try again." << endl;
+    }
+}
+
+void getPendingExams() {
+    string file = "", pendingExams = "";
+    ifstream examFile("exams.txt");
+    if (!examFile.is_open()) {
+        cout << "Error in loading the file 'exams.txt'. Please try again." << endl;
+        return;
+    }
+    while (getline(examFile, file));
+    examFile.close();
+    int posToStart = 0;
+    while(file.find("Status: Pending to be marked", posToStart) != string::npos) {
+        posToStart = file.find("Status: Pending to be marked", posToStart);
+        int numberOfCharactersBefore = 50, numberOfCharactersAfter = file.find("----------------------", posToStart) - posToStart;
+        pendingExams += file.substr(posToStart - numberOfCharactersBefore, numberOfCharactersAfter + numberOfCharactersBefore);
+    }
+    cout << pendingExams << endl;
+}
+
 void showStudentList() {
     ifstream file("students.txt");
     if (file.is_open()) {
@@ -164,9 +196,9 @@ int main() {
         if (cmd == '1') {
             addNewExam();
         } else if (cmd == '2') {
-            // Last exams history
+            getLastExams();
         } else if (cmd == '3') {
-            // Exams pending to be marked
+            getPendingExams();
         } else if (cmd == '4') {
             showStudentList();
         } else if (cmd == '5') {
