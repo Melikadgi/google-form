@@ -27,7 +27,7 @@ void addNewExam() {
     cin >> totalDuration;
     cout << "Enter number of questions: ";
     cin >> numberOfQuestions;
-    ofstream examFile("exams.txt", ios::app);
+    fstream examFile("exams.txt", ios::app);
     if (!examFile) {
         cout << "Error loading the file 'exams.txt'. Please try again." << endl;
         return;
@@ -78,7 +78,16 @@ void addNewExam() {
         cout << "Total mark doesn't match. Please try again." << endl;
         return;
     }
+    string file = "";
+    while (getline(examFile, file));
+    int posToStart = 0, id = 1;
+    while(file.find("----------------------", posToStart) != string::npos) {
+        id++;
+        posToStart = file.find("----------------------", posToStart) + 19;
+    }
     examFile << "----------------------" << endl;
+    examFile << "ID: " << id << endl;
+    examFile << "Status: Not taken" << endl;
     examFile << "Total Mark: " << totalMark << endl;
     examFile << "Total Duration: " << totalDuration << " minutes" << endl;
     examFile << "Number of Questions: " << numberOfQuestions << endl;
