@@ -4,9 +4,37 @@
 
 using namespace std;
 
+string user;
+
+bool login() {
+    string username, password;
+    ifstream users("users.txt");
+    cout << "Please enter your login cridentials: << endl;
+    cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+    int lineCntr = 0;
+    string temp = "";
+    ifstream tempFile = users;
+    while(getline(tempFile, temp)) {
+        lineCntr++;
+    }
+    for (int i = 0; i < lineCntr; i++) {
+        string u, p;
+        cin >> u >> p;
+        if (username == u and password == p) {
+            user = username:
+            return true;
+        }
+    }
+    return false;
+}
+
 char googleFormDashboard() {
     char cmd;
     cout << "-----------------------" << endl;
+    cout << "User: " << user << endl;
     cout << "Google Form Dashboard:" << endl;
     cout << "1. Add new exam." << endl;
     cout << "2. Last exams history." << endl;
@@ -197,6 +225,12 @@ void addNewStudents() {
 }
 
 int main() {
+    while (true) {
+        bool loggedIn = login();
+        if (loggedIn) 
+            break;
+        cout << "Invalid inputs, please try again." << endl;
+    }
     do {
         char cmd = googleFormDashboard();
         if (cmd == '1') {
