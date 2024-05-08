@@ -22,7 +22,7 @@ bool login() {
     }
     for (int i = 0; i < lineCntr; i++) {
         string u, p;
-        cin >> u >> p;
+        users >> u >> p;
         if (username == u and password == p) {
             user = username;
             return true;
