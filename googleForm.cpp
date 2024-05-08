@@ -9,14 +9,14 @@ string user;
 bool login() {
     string username, password;
     ifstream users("users.txt");
-    cout << "Please enter your login cridentials: << endl;
+    cout << "Please enter your login cridentials:" << endl;
     cout << "Username: ";
     cin >> username;
     cout << "Password: ";
     cin >> password;
     int lineCntr = 0;
     string temp = "";
-    ifstream tempFile = users;
+    ifstream tempFile("users.txt");
     while(getline(tempFile, temp)) {
         lineCntr++;
     }
@@ -24,7 +24,7 @@ bool login() {
         string u, p;
         cin >> u >> p;
         if (username == u and password == p) {
-            user = username:
+            user = username;
             return true;
         }
     }
